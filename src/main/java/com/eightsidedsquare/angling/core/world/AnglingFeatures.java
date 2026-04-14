@@ -16,6 +16,9 @@ public class AnglingFeatures {
     public static final Feature<RandomPatchFeatureConfig> WATER_ADJACENT_PATCH = register("water_adjacent_patch", new WaterAdjacentPatchFeature(RandomPatchFeatureConfig.CODEC));
 
     private static <C extends FeatureConfig, F extends Feature<C>> F register(String name, F feature) {
-        return Registry.register(Registries.FEATURE, new Identifier(MOD_ID, name), feature);
+        return Registry.register(Registries.FEATURE, Identifier.of(MOD_ID, name), feature);
+    }
+
+    public static void init() {
     }
 }

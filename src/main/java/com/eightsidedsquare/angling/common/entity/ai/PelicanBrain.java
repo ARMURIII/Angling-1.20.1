@@ -12,7 +12,6 @@ import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.ai.brain.*;
 import net.minecraft.entity.ai.brain.task.*;
-import net.minecraft.entity.mob.HoglinBrain;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.util.Unit;
 import net.minecraft.util.math.intprovider.UniformIntProvider;
@@ -36,23 +35,24 @@ public class PelicanBrain {
     private static void addCoreActivities(Brain<PelicanEntity> brain) {
         brain.setTaskList(Activity.CORE, 0, ImmutableList.of(
                 new StayAboveWaterTask(0.8F),
-                StrollTask.create(2.5F),
+                StrollTask.create(2f),
                 new LookAroundTask(45, 90),
                 new WanderAroundTask(),
                 UpdateAttackTargetTask.create(entity -> entity.getBrain().getOptionalMemory(MemoryModuleType.NEAREST_ATTACKABLE))
         ));
     }
 
+    @SuppressWarnings("deprecation")
     private static void addIdleActivities(Brain<PelicanEntity> brain) {
         brain.setTaskList(Activity.IDLE, ImmutableList.of(
                 Pair.of(0, UpdateAttackTargetTask.create(entity -> entity.getBrain().getOptionalMemory(MemoryModuleType.NEAREST_ATTACKABLE))),
                 Pair.of(1, new PelicanTradeTask()),
-                Pair.of(2, TimeLimitedTask.create(FollowMobTask(EntityType.PLAYER, 6.0F), UniformIntProvider.create(30, 60))),
+                Pair.of(2, LookAtMobWithIntervalTask.follow(EntityType.PLAYER, 6f, UniformIntProvider.create(80, 100))),
                 Pair.of(3, new RandomTask<>(ImmutableMap.of(MemoryModuleType.WALK_TARGET, MemoryModuleState.VALUE_ABSENT), ImmutableList.of(
-                        Pair.of(new StrollTask(1f), 1),
-                        Pair.of(new GoTowardsLookTarget(1f, 3), 1),
-                        Pair.of(new ConditionalTask<>(Entity::isOnGround, new WaitTask(5, 20)), 2),
-                        Pair.of(new ConditionalTask<>(PelicanEntity::isFlying, new NoPenaltyStrollTask(1f)), 2))))
+                        Pair.of(StrollTask.create(1f), 1),
+                        Pair.of(GoTowardsLookTargetTask.create(1f, 3), 1),
+                        Pair.of(new ConditionalTask<>(Entity::isOnGround, new WaitTask(5, 40)), 2),
+                        Pair.of(new ConditionalTask<>(PelicanEntity::isFlying, StrollTask.createSolidTargeting(1f)), 2))))
         ));
     }
 
@@ -94,9 +94,13 @@ public class PelicanBrain {
         }
     }
 
+
     public static Optional<LookTarget> getPlayerLookTarget(LivingEntity entity) {
         Optional<PlayerEntity> optional = entity.getBrain().getOptionalMemory(MemoryModuleType.NEAREST_VISIBLE_PLAYER);
-        return optional.map(player -> new EntityLookTarget(player, true));
+        if (Objects.requireNonNull(optional).isPresent())
+            return optional.map(player -> new EntityLookTarget(player, true));
+        else
+            return Optional.empty();
     }
 
     public static boolean canPutInBeak(LivingEntity target) {

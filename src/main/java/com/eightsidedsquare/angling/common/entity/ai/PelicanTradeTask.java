@@ -7,7 +7,6 @@ import net.minecraft.entity.ai.brain.MemoryModuleState;
 import net.minecraft.entity.ai.brain.MemoryModuleType;
 import net.minecraft.entity.ai.brain.task.LookTargetUtil;
 import net.minecraft.entity.ai.brain.task.MultiTickTask;
-import net.minecraft.entity.ai.brain.task.Task;
 import net.minecraft.server.world.ServerWorld;
 
 import java.util.stream.Stream;
@@ -31,7 +30,7 @@ public class PelicanTradeTask extends MultiTickTask<PelicanEntity> {
     protected void run(ServerWorld world, PelicanEntity entity, long time) {
         entity.setBeakOpen(true);
         PelicanBrain.getPlayerLookTarget(entity).ifPresent(player -> {
-            LookTargetUtil.walkTowards(entity, player, 1f, 5);
+            LookTargetUtil.walkTowards(entity, player, 0.25f, 5);
             if(!entity.isOnGround() && player.getPos().distanceTo(entity.getPos()) < 5 && canLand(world, entity)) {
                 entity.addVelocity(0, -0.01, 0);
             }

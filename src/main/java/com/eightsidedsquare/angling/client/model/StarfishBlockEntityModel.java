@@ -1,10 +1,10 @@
 package com.eightsidedsquare.angling.client.model;
 
 import com.eightsidedsquare.angling.common.block.StarfishBlock;
-import com.eightsidedsquare.angling.common.entity.NautilusEntity;
 import com.eightsidedsquare.angling.common.entity.StarfishBlockEntity;
 import com.eightsidedsquare.angling.core.AnglingUtil;
 import net.minecraft.util.Identifier;
+import net.minecraft.util.math.Direction;
 import net.minecraft.util.math.Vec3i;
 import software.bernie.geckolib.core.animation.AnimationState;
 import software.bernie.geckolib.model.GeoModel;
@@ -37,9 +37,23 @@ public class StarfishBlockEntityModel extends GeoModel<StarfishBlockEntity> {
             super.setCustomAnimations(entity, uniqueID, event);
             Optional.ofNullable(getAnimationProcessor().getBone("root")).ifPresent(bone -> {
                 Vec3i rotation = entity.getRotation();
-                bone.setRotX((float) Math.toRadians(rotation.getX()));
-                bone.setRotY((float) Math.toRadians(rotation.getY()));
-                bone.setRotZ((float) Math.toRadians(rotation.getZ()));
+                bone.setPosX(0);
+                bone.setPosY(0);
+                bone.setPosZ(0);
+                if (entity.getCachedState().get(StarfishBlock.FACING) == Direction.UP) {
+                    bone.setRotX((float) Math.toRadians(-90));
+                    bone.setPosZ(-8);
+                    bone.setPosY(-8);
+                }
+                if (entity.getCachedState().get(StarfishBlock.FACING) == Direction.DOWN) {
+                    bone.setPosZ(8);
+                    bone.setPosY(-8);
+                }
+                if (entity.getCachedState().get(StarfishBlock.FACING).getAxis() != Direction.Axis.Y) {
+                    bone.setRotX((float) Math.toRadians(rotation.getX()));
+                    bone.setRotY((float) Math.toRadians(rotation.getY()));
+                    bone.setRotZ((float) Math.toRadians(rotation.getZ()));
+                }
             });
             Optional.ofNullable(getAnimationProcessor().getBone("starfish")).ifPresent(bone ->
                     bone.setRotY((float) entity.getRandomRotation()));

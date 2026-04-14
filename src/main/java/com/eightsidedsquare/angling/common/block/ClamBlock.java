@@ -8,6 +8,7 @@ import net.minecraft.registry.tag.FluidTags;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.state.StateManager;
 import net.minecraft.state.property.BooleanProperty;
+import net.minecraft.state.property.DirectionProperty;
 import net.minecraft.state.property.Properties;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
@@ -23,6 +24,7 @@ import org.jetbrains.annotations.Nullable;
 public class ClamBlock extends HorizontalFacingBlock implements Waterloggable, FilterFeeder {
 
     private static final BooleanProperty WATERLOGGED = Properties.WATERLOGGED;
+    private static final DirectionProperty FACING = Properties.HORIZONTAL_FACING;
 
     private static final VoxelShape X_SHAPE = Block.createCuboidShape(5.5, 0, 4, 10.5, 2, 12);
     private static final VoxelShape Z_SHAPE = Block.createCuboidShape(4, 0, 5.5, 12, 2, 10.5);
@@ -46,7 +48,7 @@ public class ClamBlock extends HorizontalFacingBlock implements Waterloggable, F
     public BlockState getPlacementState(ItemPlacementContext ctx) {
         FluidState fluidState = ctx.getWorld().getFluidState(ctx.getBlockPos());
         boolean bl = fluidState.getFluid() == Fluids.WATER;
-        return getDefaultState().with(WATERLOGGED, bl).with(FACING, ctx.getPlayerLookDirection().getOpposite());
+        return getDefaultState().with(WATERLOGGED, bl).with(FACING, ctx.getHorizontalPlayerFacing().getOpposite());
     }
 
     public BlockState getStateForNeighborUpdate(BlockState state, Direction direction, BlockState neighborState, WorldAccess world, BlockPos pos, BlockPos neighborPos) {

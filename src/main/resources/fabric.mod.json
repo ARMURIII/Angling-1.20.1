@@ -25,6 +25,9 @@
     "client": [
       "com.eightsidedsquare.angling.client.AnglingClient"
     ],
+    "fabric-datagen": [
+      "com.eightsidedsquare.angling.client.datagen.AnglingDataGenerator"
+    ],
     "cardinal-components-entity": [
       "com.eightsidedsquare.angling.cca.AnglingEntityComponents"
     ],
@@ -38,7 +41,7 @@
   "accessWidener": "angling.accesswidener",
 
   "depends": {
-    "fabricloader": ">=0.14.6",
+    "fabricloader": ">=0.18.6",
     "fabric": "*",
     "minecraft": "1.20.1",
     "java": ">=17",

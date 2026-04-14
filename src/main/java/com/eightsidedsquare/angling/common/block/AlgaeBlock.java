@@ -84,7 +84,7 @@ public class AlgaeBlock extends MultifaceGrowthBlock implements Waterloggable, F
         return state.get(WATERLOGGED) ? Fluids.WATER.getStill(false) : super.getFluidState(state);
     }
 
-    public boolean isTranslucent(BlockState state, BlockView world, BlockPos pos) {
+    public boolean isTransparent(BlockState state, BlockView world, BlockPos pos) {
         return state.getFluidState().isEmpty();
     }
 
@@ -149,7 +149,7 @@ public class AlgaeBlock extends MultifaceGrowthBlock implements Waterloggable, F
     @Override
     public void randomDisplayTick(BlockState state, World world, BlockPos pos, Random random) {
         super.randomDisplayTick(state, world, pos, random);
-        if (state.get(WATERLOGGED) && random.nextBetween(0, 5) == 0) {
+        if (state.get(WATERLOGGED)/* && random.nextBetween(0, 5) == 0*/) {
             double x = random.nextGaussian() + pos.getX();
             double y = random.nextGaussian() + pos.getY();
             double z = random.nextGaussian() + pos.getZ();

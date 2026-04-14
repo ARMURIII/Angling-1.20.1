@@ -1,6 +1,5 @@
 package com.eightsidedsquare.angling.common.entity;
 
-import com.eightsidedsquare.angling.common.block.StarfishBlock;
 import com.eightsidedsquare.angling.core.AnglingEntities;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
@@ -24,7 +23,7 @@ import software.bernie.geckolib.core.object.PlayState;
 
 
 public class UrchinBlockEntity extends BlockEntity implements GeoBlockEntity {
-    private static final RawAnimation IDLE = RawAnimation.begin().thenLoop("animation.catfish.idle");
+    private static final RawAnimation IDLE = RawAnimation.begin().thenLoop("animation.urchin.idle");
 
     private ItemStack hat = ItemStack.EMPTY;
     AnimatableInstanceCache factory = new InstancedAnimatableInstanceCache(this);

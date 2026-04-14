@@ -3,6 +3,7 @@ package com.eightsidedsquare.angling.core;
 import com.eightsidedsquare.angling.common.item.RoeBlockItem;
 import com.eightsidedsquare.angling.common.item.UrchinBucketItem;
 import com.eightsidedsquare.angling.common.item.WormItem;
+import net.fabricmc.fabric.api.itemgroup.v1.ItemGroupEvents;
 import net.fabricmc.fabric.api.registry.CompostingChanceRegistry;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.mob.MobEntity;
@@ -66,6 +67,17 @@ public class AnglingItems {
         registerCompostable(AnglingBlocks.ALGAE.asItem(), 0.2f);
         registerCompostable(AnglingBlocks.PAPYRUS.asItem(), 0.2f);
 
+        ItemGroupEvents.modifyEntriesEvent(ItemGroups.TOOLS).register(entries -> entries.addAfter(Items.TADPOLE_BUCKET,URCHIN_BUCKET));
+        ItemGroupEvents.modifyEntriesEvent(ItemGroups.FOOD_AND_DRINK).register(entries -> {
+            entries.addAfter(Items.COOKED_SALMON, FRIED_SUNFISH);
+            entries.addAfter(Items.COOKED_SALMON, SUNFISH);
+        });
+        ItemGroupEvents.modifyEntriesEvent(ItemGroups.NATURAL).register(entries -> {
+            entries.add(DUCKWEED);
+            entries.add(SARGASSUM);
+            entries.add(WORM);
+        });
+
     }
 
     private static <T extends Item> T create(String name, T item) {
@@ -74,11 +86,15 @@ public class AnglingItems {
     }
 
     private static Item createBucket(String name, EntityType<?> type) {
-        return create(name + "_bucket", new EntityBucketItem(type, Fluids.WATER, SoundEvents.ITEM_BUCKET_EMPTY_FISH, new Item.Settings().maxCount(1)));
+        var item = new EntityBucketItem(type, Fluids.WATER, SoundEvents.ITEM_BUCKET_EMPTY_FISH, new Item.Settings().maxCount(1));
+        ItemGroupEvents.modifyEntriesEvent(ItemGroups.TOOLS).register(entries -> entries.addAfter(Items.TADPOLE_BUCKET,item));
+        return create(name + "_bucket", item);
     }
 
     private static Item createSpawnEgg(String name, EntityType<? extends MobEntity> type, int primary, int secondary) {
-        return create(name + "_spawn_egg", new SpawnEggItem(type, primary, secondary, new Item.Settings()));
+        var item = new SpawnEggItem(type, primary, secondary, new Item.Settings());
+        ItemGroupEvents.modifyEntriesEvent(ItemGroups.SPAWN_EGGS).register(entries -> entries.add(item));
+        return create(name + "_spawn_egg", item);
     }
 
     private static <T extends Item> void registerCompostable(T item, float chance){

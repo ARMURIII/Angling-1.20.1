@@ -68,7 +68,7 @@ public class PelicanEntity extends AnimalEntity implements GeoEntity {
     private static final RawAnimation FLAPPING = RawAnimation.begin().thenLoop("animation.pelican.flapping");
     private static final RawAnimation DIVING_ANIMATION = RawAnimation.begin().thenLoop("animation.pelican.diving");
     private static final RawAnimation WALKING = RawAnimation.begin().thenLoop("animation.pelican.walking");
-    private static final RawAnimation BEAK_OPEN_ANIMATION = RawAnimation.begin().thenLoop("animation.pelican.beak_open");
+    private static final RawAnimation BEAK_OPEN_ANIMATION = RawAnimation.begin().thenLoop("animation.pelican.beak_opened");
 
     AnimatableInstanceCache factory = new InstancedAnimatableInstanceCache(this);
     protected static final ImmutableList<SensorType<? extends Sensor<? super PelicanEntity>>> SENSORS;
@@ -120,8 +120,8 @@ public class PelicanEntity extends AnimalEntity implements GeoEntity {
     public static DefaultAttributeContainer.Builder createAttributes() {
         return MobEntity.createMobAttributes()
                 .add(EntityAttributes.GENERIC_MAX_HEALTH, 16.0D)
-                .add(EntityAttributes.GENERIC_FLYING_SPEED, 0.1D)
-                .add(EntityAttributes.GENERIC_MOVEMENT_SPEED, 0.1D)
+                .add(EntityAttributes.GENERIC_FLYING_SPEED, 0.06D)
+                .add(EntityAttributes.GENERIC_MOVEMENT_SPEED, 0.07D)
                 .add(EntityAttributes.GENERIC_ATTACK_DAMAGE, 1d);
     }
 

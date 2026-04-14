@@ -3,14 +3,13 @@ package com.eightsidedsquare.angling.client.model;
 import com.eightsidedsquare.angling.core.AnglingUtil;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.util.Identifier;
+import org.jetbrains.annotations.Nullable;
 import software.bernie.geckolib.animatable.GeoEntity;
 import software.bernie.geckolib.constant.DataTickets;
 import software.bernie.geckolib.core.animatable.model.CoreGeoBone;
 import software.bernie.geckolib.core.animation.AnimationState;
 import software.bernie.geckolib.model.GeoModel;
 import software.bernie.geckolib.model.data.EntityModelData;
-
-import javax.annotation.Nullable;
 
 import static com.eightsidedsquare.angling.core.AnglingMod.MOD_ID;
 
@@ -58,7 +57,6 @@ public class BasicEntityModel<A extends LivingEntity & GeoEntity> extends GeoMod
     }
 
     @Override
-    @SuppressWarnings("unchecked")
     public void setCustomAnimations(A entity, long instanceId, AnimationState<A> event) {
         if(!AnglingUtil.isReloadingResources()) {
             if(liesOutOfWater) {

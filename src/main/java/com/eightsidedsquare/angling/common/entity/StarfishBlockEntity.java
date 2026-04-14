@@ -9,7 +9,6 @@ import net.minecraft.item.BlockItem;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.network.packet.s2c.play.BlockEntityUpdateS2CPacket;
-import net.minecraft.state.property.Properties;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Vec3i;
 import net.minecraft.world.BlockRenderView;
@@ -26,8 +25,8 @@ import software.bernie.geckolib.core.object.PlayState;
 import java.awt.*;
 
 public class StarfishBlockEntity extends BlockEntity implements GeoBlockEntity {
-    private static final RawAnimation DEAD = RawAnimation.begin().thenLoop("animation.sunfish.flop");
-    private static final RawAnimation IDLE = RawAnimation.begin().thenLoop("animation.sunfish.idle");
+    private static final RawAnimation DEAD = RawAnimation.begin().thenLoop("animation.starfish.dead");
+    private static final RawAnimation IDLE = RawAnimation.begin().thenLoop("animation.starfish.idle");
 
     AnimatableInstanceCache factory = new InstancedAnimatableInstanceCache(this);
     private double randomRotation;
@@ -137,13 +136,13 @@ public class StarfishBlockEntity extends BlockEntity implements GeoBlockEntity {
 
     public Vec3i getRotation() {
         BlockState state = getCachedState();
-        return switch (state.get(Properties.FACING)) {
+        return switch (state.get(StarfishBlock.FACING)) {
             case NORTH -> new Vec3i(-90, 0, 0);
-            case EAST -> new Vec3i(0, -90, -90);
-            case SOUTH -> new Vec3i(90, 0, 180);
-            case WEST -> new Vec3i(0, 90, 90);
-            case UP -> Vec3i.ZERO;
-            case DOWN -> new Vec3i(180, 180, 0);
+            case EAST -> new Vec3i(-90, 0, 0);
+            case SOUTH -> new Vec3i(-90, 0, 0);
+            case WEST -> new Vec3i(-90, 0, 0);
+            case UP -> new Vec3i(-90, 0, 0);
+            case DOWN -> new Vec3i(-90, 0, 0);
         };
     }
 

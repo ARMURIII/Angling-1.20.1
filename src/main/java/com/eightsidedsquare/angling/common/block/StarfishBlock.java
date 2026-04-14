@@ -18,6 +18,7 @@ import net.minecraft.registry.tag.FluidTags;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.state.StateManager;
 import net.minecraft.state.property.BooleanProperty;
+import net.minecraft.state.property.DirectionProperty;
 import net.minecraft.state.property.Properties;
 import net.minecraft.util.Util;
 import net.minecraft.util.math.BlockPos;
@@ -46,6 +47,7 @@ public class StarfishBlock extends FacingBlock implements BlockEntityProvider, W
             0x413854
     );
     private static final BooleanProperty WATERLOGGED = Properties.WATERLOGGED;
+    public static final DirectionProperty FACING = Properties.FACING;
     private static final VoxelShape DOWN_SHAPE = Block.createCuboidShape(3, 14, 3, 13, 16, 13);
     private static final VoxelShape UP_SHAPE = Block.createCuboidShape(3, 0, 3, 13, 2, 13);
     private static final VoxelShape EAST_SHAPE = Block.createCuboidShape(0, 3, 3, 2, 13, 13);
