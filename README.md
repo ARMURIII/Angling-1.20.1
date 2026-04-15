@@ -2,12 +2,6 @@
 
 Feel free to make expansions upon this mod! A lot of stuff is data driven, such as fish that can be bred, mobs that pelicans spawn with, etc.
 
-code prolly butt but yah.
-Still gotta fix:
-PelicanBrain.java
-AnglingConfiguredFeatures.java
-AnglingPlacedFeatures.java
+The Pelican AI is still funky, but everything else works as intended
 
-but tbh idk how to do these so anybody who can feel free to.
-
-Port for The Lost Odyssey SMP
+I might do a second branch that adds content upon Angling
