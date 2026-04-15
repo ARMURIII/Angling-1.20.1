@@ -149,7 +149,7 @@ public class AlgaeBlock extends MultifaceGrowthBlock implements Waterloggable, F
     @Override
     public void randomDisplayTick(BlockState state, World world, BlockPos pos, Random random) {
         super.randomDisplayTick(state, world, pos, random);
-        if (state.get(WATERLOGGED)/* && random.nextBetween(0, 5) == 0*/) {
+        if (state.get(WATERLOGGED) && random.nextBetween(0, 5) == 0) {
             double x = random.nextGaussian() + pos.getX();
             double y = random.nextGaussian() + pos.getY();
             double z = random.nextGaussian() + pos.getZ();

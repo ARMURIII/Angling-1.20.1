@@ -14,6 +14,7 @@ import net.minecraft.util.math.random.Random;
 import net.minecraft.world.WorldAccess;
 import net.minecraft.world.gen.feature.CoralFeature;
 import org.spongepowered.asm.mixin.Mixin;
+import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
@@ -39,6 +40,7 @@ public abstract class CoralFeatureMixin {
         }
     }
 
+    @Unique
     private boolean canPlace(BlockPos pos, WorldAccess world) {
         BlockState state = world.getBlockState(pos);
         return state.isIn(BlockTags.CORALS) || state.isIn(BlockTags.WALL_CORALS) || state.isOf(Blocks.WATER);
