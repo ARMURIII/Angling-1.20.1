@@ -9,6 +9,7 @@ import net.minecraft.item.Items;
 import net.minecraft.sound.SoundEvent;
 import net.minecraft.sound.SoundEvents;
 import net.minecraft.state.property.Properties;
+import net.minecraft.util.Hand;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import org.jetbrains.annotations.Nullable;
@@ -21,8 +22,12 @@ public class UrchinBucketItem extends BlockItem {
 
     @Override
     protected boolean postPlacement(BlockPos pos, World world, @Nullable PlayerEntity player, ItemStack stack, BlockState state) {
-        if(player != null && !player.isCreative() && !player.giveItemStack(new ItemStack(Items.BUCKET)))
-            player.dropItem(new ItemStack(Items.BUCKET), true);
+        if(player != null && !player.isCreative()) {
+            if (player.getStackInHand(Hand.MAIN_HAND).isEmpty() || player.getStackInHand(Hand.MAIN_HAND).isOf(this))
+                player.setStackInHand(Hand.MAIN_HAND, new ItemStack(Items.BUCKET));
+            else if (!player.giveItemStack(new ItemStack(Items.BUCKET)))
+                player.dropItem(new ItemStack(Items.BUCKET), true);
+        }
         world.scheduleFluidTick(pos, world.getFluidState(pos).getFluid(), 1);
         if(world.getDimension().ultrawarm())
             world.setBlockState(pos, state.with(Properties.WATERLOGGED, false));

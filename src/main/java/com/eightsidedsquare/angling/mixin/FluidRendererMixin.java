@@ -1,5 +1,7 @@
 package com.eightsidedsquare.angling.mixin;
 
+import com.llamalad7.mixinextras.injector.wrapmethod.WrapMethod;
+import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
 import net.fabricmc.fabric.api.tag.convention.v1.ConventionalBlockTags;
 import net.minecraft.block.BlockState;
 import net.minecraft.client.render.block.FluidRenderer;
@@ -9,20 +11,16 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
 import net.minecraft.world.BlockRenderView;
 import org.spongepowered.asm.mixin.Mixin;
-import org.spongepowered.asm.mixin.injection.At;
-import org.spongepowered.asm.mixin.injection.Inject;
-import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 @Mixin(FluidRenderer.class)
 public abstract class FluidRendererMixin {
 
-    @Inject(method = "shouldRenderSide", at = @At("HEAD"), cancellable = true)
-    private static void shouldRenderSide(BlockRenderView world, BlockPos pos, FluidState fluidState, BlockState blockState, Direction direction, FluidState neighborFluidState, CallbackInfoReturnable<Boolean> cir) {
-        if(fluidState.isIn(FluidTags.WATER)) {
-            if(world.getBlockState(pos.offset(direction)).isIn(ConventionalBlockTags.GLASS_BLOCKS)) {
-                cir.setReturnValue(false);
-            }
-        }
+    @WrapMethod(method = "shouldRenderSide")
+    private static boolean shouldRenderSide(BlockRenderView world, BlockPos pos, FluidState fluidState, BlockState blockState, Direction direction, FluidState neighborFluidState, Operation<Boolean> original) {
+        if(fluidState.isIn(FluidTags.WATER))
+            if(world.getBlockState(pos.offset(direction)).isIn(ConventionalBlockTags.GLASS_BLOCKS))
+                return false;
+        return original.call(world, pos, fluidState, blockState, direction, neighborFluidState);
     }
 
 }
