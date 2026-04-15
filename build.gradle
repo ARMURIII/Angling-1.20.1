@@ -93,8 +93,10 @@ fabricApi {
 }
 
 jar {
+	inputs.property "projectName", project.name
+
 	from("LICENSE") {
-		rename { "${it}_${project.archivesBaseName}"}
+		rename { "${it}_${project.name}"}
 	}
 }
 
